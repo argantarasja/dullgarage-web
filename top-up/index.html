@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Up - Cahaya CELL Nangkod</title>
+    <link rel="stylesheet" href="top-up.css">
+    <link rel="icon" href="../img/logo-cc.png">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-btn"><i class='bx bx-left-arrow-alt'></i> Kembali</a>
+            <h1>Layanan Top Up</h1>
+        </header>
+
+        <section class="form-section">
+            <div class="input-group">
+                <label for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" placeholder="Masukkan nama Anda..." required>
+            </div>
+
+            <div class="input-group">
+                <label for="layanan">Jenis Layanan</label>
+                <select id="layanan">
+                    <option value="">-- Pilih Layanan --</option>
+                    <option value="Free Fire Diamond">Free Fire (Diamond)</option>
+                    <option value="Free Fire Membership">Free Fire (Membership)</option>
+                    <option value="Mobile Legends Diamond">Mobile Legends (Diamond)</option>
+                    <option value="Mobile Legends Starlight">Mobile Legends (Starlight/WDP)</option>
+                    <option value="E-Wallet">E-Wallet (Dana, Gopay, OVO)</option>
+                    <option value="Pulsa">Top Up Pulsa (All Operator)</option>
+                </select>
+            </div>
+
+            <div id="input-game-area" class="hidden">
+                <div class="id-row" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <div style="flex: 2;">
+                        <label id="label-id" style="display: block; margin-bottom: 8px; font-weight: 600;">ID Player</label>
+                        <input type="number" id="id-game" placeholder="Masukkan ID" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                    <div id="server-area" class="hidden" style="flex: 1;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">ID Server</label>
+                        <input type="number" id="id-server" placeholder="Zona" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                </div>
+
+                <div id="list-ff-dm" class="product-list hidden">
+                    <label>Pilih Diamond Free Fire</label>
+                    <div class="diamond-grid">
+                        <div class="diamond-card" data-value="5 Diamond FF|3.000"><span>5 DM</span><small>Rp 3.000</small></div>
+                        <div class="diamond-card" data-value="12 Diamond FF|6.000"><span>12 DM</span><small>Rp 6.000</small></div>
+                        <div class="diamond-card" data-value="50 Diamond FF|12.000"><span>50 DM</span><small>Rp 12.000</small></div>
+                        <div class="diamond-card" data-value="140 Diamond FF|24.000"><span>140 DM</span><small>Rp 24.000</small></div>
+                        <div class="diamond-card" data-value="355 Diamond FF|54.000"><span>355 DM</span><small>Rp 54.000</small></div>
+                    </div>
+                </div>
+
+                <div id="list-ff-member" class="product-list hidden">
+                    <label>Pilih Membership Free Fire</label>
+                    <div class="diamond-grid">
+                        <div class="diamond-card" data-value="Membership Mingguan FF|35.000"><span>Mingguan</span><small>Rp 35.000</small></div>
+                        <div class="diamond-card" data-value="Membership Bulanan FF|95.000"><span>Bulanan</span><small>Rp 95.000</small></div>
+                    </div>
+                </div>
+
+                <div id="list-ml-dm" class="product-list hidden">
+                    <label>Pilih Diamond Mobile Legends</label>
+                    <div class="diamond-grid">
+                        <div class="diamond-card" data-value="5 Diamond ML|2.000"><span>5 DM</span><small>Rp 2.000</small></div>
+                        <div class="diamond-card" data-value="12 Diamond ML|4.000"><span>12 DM</span><small>Rp 4.000</small></div>
+                        <div class="diamond-card" data-value="50 Diamond ML|15.000"><span>50 DM</span><small>Rp 15.000</small></div>
+                        <div class="diamond-card" data-value="170 Diamond ML|50.000"><span>170 DM</span><small>Rp 50.000</small></div>
+                    </div>
+                </div>
+
+                <div id="list-ml-member" class="product-list hidden">
+                    <label>Pilih Starlight / WDP</label>
+                    <div class="diamond-grid">
+                        <div class="diamond-card" data-value="Weekly Diamond Pass ML|30.000"><span>WDP</span><small>Rp 30.000</small></div>
+                        <div class="diamond-card" data-value="Starlight Member ML|40.000"><span>Starlight</span><small>Rp 40.000</small></div>
+                        <div class="diamond-card" data-value="Starlight Plus ML|80.000"><span>Starlight Plus</span><small>Rp 80.000</small></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="input-ewallet-area" class="hidden">
+                <div class="input-group">
+                    <label for="kategori-ewallet">Pilih Jenis E-Wallet</label>
+                    <select id="kategori-ewallet">
+                        <option value="">-- Pilih E-Wallet --</option>
+                        <option value="DANA">DANA</option>
+                        <option value="GOPAY">GOPAY</option>
+                        <option value="OVO">OVO</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="nomor-ewallet">Nomor E-Wallet</label>
+                    <input type="number" id="nomor-ewallet" placeholder="Contoh: 08123456789">
+                </div>
+                <div class="input-group">
+                    <label for="nominal-ewallet">Nominal Top Up</label>
+                    <input type="text" id="nominal-ewallet" placeholder="Contoh: 50.000">
+                </div>
+            </div>
+
+            <div id="input-pulsa-area" class="hidden">
+                <div class="input-group">
+                    <label for="nomor-pulsa">Nomor HP</label>
+                    <input type="number" id="nomor-pulsa" placeholder="Contoh: 08123456789">
+                </div>
+                <div class="input-group">
+                    <label for="nominal-pulsa">Nominal Pulsa / Harga</label>
+                    <input type="text" id="nominal-pulsa" placeholder="Contoh: 10.000">
+                </div>
+            </div>
+
+            <button type="button" id="btn-topup" class="btn-submit">Top Up Sekarang</button>
+        </header>
+    </div>
+
+    <script src="top-up.js"></script>
+</body>
+</html>
