@@ -54,7 +54,7 @@ selectLayanan.addEventListener('change', function() {
             if (val === "Free Fire Membership") listFfMember.classList.remove('hidden');
         } else if (val.includes("Mobile Legends")) {
             serverArea.classList.remove('hidden');
-            labelId.innerText = "User ID ML";
+            labelId.innerText = "ID ML";
             if (val === "Mobile Legends Diamond") listMlDm.classList.remove('hidden');
             if (val === "Mobile Legends Starlight") listMlMember.classList.remove('hidden');
         }
