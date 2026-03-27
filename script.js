@@ -1,8 +1,12 @@
+// --- HEADER STICKY ---
+// Berfungsi untuk mengubah tampilan header menjadi transparan/berwarna saat di-scroll
 window.addEventListener("scroll", () => {
   const header = document.querySelector(".header");
   header.classList.toggle("sticky", window.scrollY > 0);
 });
 
+// --- ACTIVE LINK ON SCROLL ---
+// Berfungsi untuk menandai menu navigasi sesuai dengan section yang sedang dilihat
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-links a");
 
@@ -24,7 +28,8 @@ window.onscroll = () => {
   });
 };
 
-// --- SLIDER PENGUMUMAN ---
+// --- SLIDER PENGUMUMAN (BANNER) ---
+// Berfungsi untuk menjalankan slider promo/pengumuman dengan sistem drag & auto-slide
 const wrapper = document.querySelector(".slider-wrapper");
 const slides = document.querySelectorAll(".slide");
 const dots = document.querySelectorAll(".dot");
@@ -53,6 +58,7 @@ function updateSlider() {
   });
 }
 
+// Event listener untuk drag slider pengumuman
 wrapper.addEventListener("mousedown", dragStart);
 wrapper.addEventListener("touchstart", dragStart);
 wrapper.addEventListener("mouseup", dragEnd);
@@ -99,19 +105,21 @@ function animation() {
 
 window.addEventListener("resize", updateSlider);
 
-// --- FUNGSI ANIMASI REUSABLE ---
+// --- FUNGSI INFINITE SCROLL PRODUK & LAYANAN (DENGAN TOUCH SUPPORT) ---
+// Berfungsi agar section produk/layanan bisa bergeser otomatis dan digeser manual di PC & HP
 function setupInfiniteScroll(wrapperId) {
   const pWrapper = document.getElementById(wrapperId);
   if (!pWrapper) return;
 
-  // Duplikasi konten untuk efek infinite
+  // Duplikasi konten agar slide terlihat tidak ada putusnya (infinite)
   pWrapper.innerHTML += pWrapper.innerHTML;
 
   let pCurrentPos = 0;
-  let pSpeed = 0.8;
+  let pSpeed = 0.8; 
   let isDraggingProduct = false;
   let pStartX, pScrollLeft;
 
+  // Animasi otomatis bergerak ke kiri
   function animate() {
     if (!isDraggingProduct) {
       pCurrentPos -= pSpeed;
@@ -125,40 +133,69 @@ function setupInfiniteScroll(wrapperId) {
 
   animate();
 
-  // Event Listeners untuk Drag
-  pWrapper.addEventListener("mousedown", (e) => {
+  // Fungsi pembantu untuk mendapatkan koordinat X (Mouse atau Jari)
+  const getX = (e) => e.type.includes("mouse") ? e.pageX : e.touches[0].clientX;
+
+  // Fungsi saat mulai menyentuh/klik
+  const startDragging = (e) => {
     isDraggingProduct = true;
-    pStartX = e.pageX - pWrapper.offsetLeft;
+    pStartX = getX(e) - pWrapper.offsetLeft;
     pScrollLeft = pCurrentPos;
     pWrapper.style.cursor = "grabbing";
-  });
+    pWrapper.style.transition = "none";
+  };
 
-  window.addEventListener("mousemove", (e) => {
+  // Fungsi saat menyeret/menggeser
+  const moveDragging = (e) => {
     if (!isDraggingProduct) return;
-    const x = e.pageX - pWrapper.offsetLeft;
+    
+    // Mencegah halaman naik/turun saat geser slider di HP
+    if (e.type === "touchmove") {
+        if (e.cancelable) e.preventDefault();
+    }
+
+    const x = getX(e) - pWrapper.offsetLeft;
     const walk = x - pStartX;
     pCurrentPos = pScrollLeft + walk;
 
     const halfWidth = pWrapper.scrollWidth / 2;
-    if (pCurrentPos > 0) pCurrentPos = -halfWidth;
-    else if (Math.abs(pCurrentPos) >= halfWidth) pCurrentPos = 0;
+    // Logika agar saat mentok kembali ke posisi awal tanpa terlihat putus
+    if (pCurrentPos > 0) {
+      pCurrentPos = -halfWidth;
+      pScrollLeft = pCurrentPos;
+      pStartX = x; 
+    } else if (Math.abs(pCurrentPos) >= halfWidth) {
+      pCurrentPos = 0;
+      pScrollLeft = pCurrentPos;
+      pStartX = x;
+    }
 
     pWrapper.style.transform = `translateX(${pCurrentPos}px)`;
-  });
+  };
 
-  window.addEventListener("mouseup", () => {
+  // Fungsi saat sentuhan/klik dilepas
+  const stopDragging = () => {
     isDraggingProduct = false;
     pWrapper.style.cursor = "grab";
-  });
-  
-  // Tambahkan touch events jika diperlukan untuk mobile (opsional)
+  };
+
+  // Event Desktop (Mouse)
+  pWrapper.addEventListener("mousedown", startDragging);
+  window.addEventListener("mousemove", moveDragging);
+  window.addEventListener("mouseup", stopDragging);
+
+  // Event Mobile (Touch)
+  pWrapper.addEventListener("touchstart", startDragging, { passive: true });
+  window.addEventListener("touchmove", moveDragging, { passive: false });
+  window.addEventListener("touchend", stopDragging);
 }
 
-// Inisialisasi untuk kedua section
-setupInfiniteScroll("productWrapper");       // Untuk Layanan
-setupInfiniteScroll("actualProductWrapper"); // Untuk Produk
+// Menjalankan fungsi untuk masing-masing ID section
+setupInfiniteScroll("productWrapper");       // Slider Layanan
+setupInfiniteScroll("actualProductWrapper"); // Slider Produk
 
-// --- NAVIGASI PRODUK ---
+// --- NAVIGASI FILTER PRODUK ---
+// Berfungsi untuk mengubah status 'active' pada tombol kategori produk
 const productNavBtns = document.querySelectorAll(".prod-link");
 
 productNavBtns.forEach((btn) => {
@@ -168,7 +205,8 @@ productNavBtns.forEach((btn) => {
   });
 });
 
-// --- MENU MOBILE ---
+// --- MENU MOBILE (HAMBURGER) ---
+// Berfungsi untuk membuka dan menutup menu navigasi pada tampilan HP
 const menuIcon = document.querySelector(".menu-icon");
 const navLinksContainer = document.querySelector(".nav-links");
 
@@ -183,6 +221,7 @@ menuIcon.addEventListener("click", () => {
   }
 });
 
+// Menutup menu otomatis saat salah satu link diklik
 const links = document.querySelectorAll(".nav-links a");
 links.forEach((link) => {
   link.addEventListener("click", () => {
@@ -192,6 +231,7 @@ links.forEach((link) => {
 });
 
 // --- DARK MODE THEME ---
+// Berfungsi untuk menyimpan dan menerapkan tema gelap/terang
 const themeToggle = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme');
 
